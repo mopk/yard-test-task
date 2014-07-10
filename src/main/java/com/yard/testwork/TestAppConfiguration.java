@@ -3,6 +3,7 @@ package com.yard.testwork;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yard.testwork.utils.ObjectMapperHolder;
 import org.springframework.context.annotation.*;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -17,6 +18,7 @@ import java.util.List;
 @PropertySource({"classpath:application.properties"})
 @EnableWebMvc
 public class TestAppConfiguration extends WebMvcConfigurerAdapter {
+
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         super.configureDefaultServletHandling(configurer);
@@ -27,6 +29,7 @@ public class TestAppConfiguration extends WebMvcConfigurerAdapter {
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(mappingJackson2HttpMessageConverter());
     }
+
     @Bean
     public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
@@ -39,5 +42,14 @@ public class TestAppConfiguration extends WebMvcConfigurerAdapter {
         ObjectMapper mapper = new ObjectMapper();
         ObjectMapperHolder.set(mapper);
         return mapper;
+    }
+
+    @Bean
+    static public PropertySourcesPlaceholderConfigurer
+                                propertySourcesPlaceholderConfigurer() {
+        PropertySourcesPlaceholderConfigurer
+                propertySourcesPlaceholderConfigurer =
+                        new PropertySourcesPlaceholderConfigurer();
+        return  propertySourcesPlaceholderConfigurer;
     }
 }
